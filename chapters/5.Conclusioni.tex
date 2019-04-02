@@ -1,0 +1,59 @@
+\section{Conclusioni}
+
+Alla luce dei risultati ottenuti possiamo dire che tutti i modelli di reti imparano a schivare gli ostacoli più o meno bene. 
+
+Osservando i risultati dei comportamenti di \textit{Collision-Avoidance} ottenuti da \texttt{dacv2} in relazione alle sue controparti \texttt{dacv3} e specialmente \texttt{dacv4}, possiamo constatare che l'utilizzo dei bumper e sensori di prossimità posteriori influenzi negativamente sull'apprendimento del comportamento da parte dell'agente. 
+
+Dai grafici risultanti dai dati ottenuti durante gli esami di addestramento e test, presentati nella precedente sezione, si può notare come la presenza di più neuroni nel layer di Collisione nei modelli \texttt{dacv2} e \texttt{dacv4} permetta però all'agente di apprendere decisamente meglio il comportamento al variare di uno dei parametri. Mentre per quanto riguarda \texttt{dacv3} essa è in grado di apprendere solo per un ristretto intorno di parametri di apprendimento $\tau \ge 0.09$.
+
+Considerando il problema presentato da tutte tre i modelli di apprendere correttamente a schivare gli ostacoli da un solo lato mentre dall'altro esegue una piroetta prima di allontanarsi, oltre ai possibili accorgimenti per far fronte alle problematiche discusse nella sezione di test, un'esplorazione interessante potrebbe consistere nell'integrazione della \textit{Fototassi} al comportamento di \textit{Collision-Avoidance}, la quale potrebbe permettere all'agente di apprendere la \textit{Collision-Avoidance} con maggiore efficienza in quanto vi è un obiettivo preciso da raggiungere, piuttosto che vagare per l'arena senza una meta. Ciò \textit{potrebbe} anche risolvere quei casi in cui l'agente si incastra negli angoli concavi dell'arena, producendo il comportamento con moto a spirale/circolare, oppure evitare che l'agente carichi semplicemente un ostacolo all'inizio dell'addestramento, evitando in entrambi casi che la rete vada facilmente in \textit{overfitting}.
+
+Un'altra possibile soluzione per risolvere il problema presentato potrebbe essere quello di effettuare ulteriori addestramenti in arene differenti che permettano di bilanciare meglio le risposte agli stimoli e quindi offra la possibilità all'agente di generalizzare più correttamente il proprio comportamento. 
+Alternativamente esplorare anche a livello temporale quale sia in media il tempo ottimale di addestramento, anche se questo risulterebbe particolarmente legato al modello di arena utilizzato.
+
+Inoltre potrebbe risultare interessante determinare la conclusione dell'addestramento sulla base di una funzione di \textit{fitness} che permetta di descrivere la bontà del comportamento appreso in maniera incrementale. In tal modo si terminerà l'addestramento qualora tale \textit{fitness value} superi una determinata soglia, evitando di troncare la simulazione nel corso di una fase si instabilità della rete neurale.
+\hfill\break
+Detto ciò passiamo a fare un'analisi ed un confronto quantitativo dei dati ottenuti dai tre modelli. 
+
+In questo caso rispetto ai grafici precedenti, in cui veniva utilizzata la sola \textit{\%AvoidanceStep} come  metrica di confronto dei modelli addestrati, prendiamo in considerazione anche le deviazioni standard sugli assi x e z. Tale scelta nasce a posteriori dalla necessità di voler cercare di tenere in considerazione la presenza di possibili Falsi Positivi nei test. Per tale motivo il confronto tenderà a preferire quei modelli che permettono all'agente robotico di esplorare maggiormente l'arena. Si è quindi proceduto prendendo per prima cosa tutti i valori di test dei 3 modelli. Essi sono stati poi filtrati in modo da eliminare tutti i risultati che presentavano $\texttt{std(x)} < 0.2 \And \texttt{std(z)} < 0.2$. Una volta fatto ciò è stata definita una metrica di ranking che permettesse di ordinare i modelli, tenendo in considerazione \texttt{\%AvoidStep}, deviazione standard media sugli assi e deviazione standard delle deviazioni standard sugli assi. 
+
+$$\overline{\texttt{STD}}_i = mean(\{\texttt{std(x)}_i, \texttt{std(z)}_i\})$$
+
+$$\texttt{std(x, z)}_i = std(\{\texttt{std(x)}_i, \texttt{std(z)}_i\})$$
+
+$$rank_i = \frac{\overline{\texttt{STD}}_i \cdot 0.35 - \texttt{std(x, z)}_i \cdot 0.05 + \texttt{\%AvoidSteps}_i \cdot 0.6}{0.35 + 0.05 + 0.6}$$
+
+\hfill\break
+
+Come si può notare dalla formula si è fatto ricorso anche all'uso della media pesata. Essa permette di prediligere quei modelli che offrono score di "avoidance" elevati e variazioni significative su entrambi gli assi, penalizzando quelli che presentano variazioni soltanto di un asse. 
+
+Mostriamo ora una tabella contenente i primi 15 modelli confrontati con la metrica sopracitata.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        i	&   v	&	$\eta$,$\epsilon$,$\tau$ &   mAvoidSteps	& \%AvoidSteps & std(x) & std(z) & rank \\
+        \hline
+        157	    &   2	    &	0.05,0.65,0.8     &   11.71	&   0.9388	&   0.6797	&   0.6075	& 1 \\
+        361	    &   4	    &	0.095,0.7,0.85 	&   10.82	&   0.9370	&   0.6602	&   0.6128	& 0.99840 \\
+        409	    &   4	    &	0.1,0.7,0.8       &   9.14	&   0.9912	&   0.6376	&   0.4267	& 0.99380 \\
+        427	    &   4	    &	0.1,0.85,0.65   	&   10.03	&   0.9852	&   0.5115	&   0.5391	& 0.99302 \\
+        385	    &   4	    &	0.095,0.9,0.65   	&   14.86	&   0.9585	&   0.6765	&   0.4883	& 0.99298 \\
+        353	    &   4	    &	0.095,0.65,0.8    &   7.79	&   0.9872	&   0.5094	&   0.4924	& 0.98906 \\
+        155	    &   4	    &	0.075,0.65,0.7    &   20.49	&   0.9349	&   0.7576	&   0.4576	& 0.98843 \\
+        337	    &   2	    &	0.065,0.9,0.7     &   9.56	&   0.9666	&   0.4938	&   0.5562	& 0.98623 \\
+        372	    &   4	    &	0.095,0.8,0.7     &   15.73	&   0.9854	&   0.5912	&   0.4099	& 0.98608 \\
+        324	    &   3	    &	0.09,0.65,0.55   	&   7.57	&   0.9499	&   0.5415	&   0.5493	& 0.98538 \\
+        403	    &   4	    &	0.1,0.65,0.85   	&   7.07	&   0.9918	&   0.5341	&   0.4197	& 0.98454 \\
+        217	    &   4	    &	0.08,0.75,0.65   	&   13.38	&   0.9284	&   0.5802	&   0.5690	& 0.98384 \\
+        396	    &   3	    &	0.095,0.7,0.55   	&   7.74	&   0.9469	&   0.5420	&   0.5418	& 0.98380 \\
+        175	    &   2	    &	0.05,0.8,0.65   	&   10.62	&   0.9291	&   0.5315	&   0.6139	& 0.98268 \\
+        \hline
+    \end{tabular}
+    \caption{Top 15 trained models among the 3 different type.}
+    \label{tab:ranks}
+\end{table}
+
+Consci che un confronto più rigoroso richieda ulteriori test e training con ulteriori parametri differenti e utilizzando arene differenti. Siamo nel complesso abbastanza soddisfatti dei risultati ottenuti. 
+Il progetto ci ha permesso di sperimentare per la prima volta un utilizzo in pratica delle reti neurali e renderci conto di come esse, nonostante a prima vista possano sembrare semplici, spesso sorprendono mostrando comportamenti emergenti inaspettati a cui è complicato dare spiegazioni semplici al primo colpo.  

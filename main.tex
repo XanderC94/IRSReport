@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+
+\usepackage{wrapfig}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[usenames]{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{paralist}
+\usepackage{marvosym}
+\usepackage{multicol}
+\usepackage{sectsty}
+\usepackage{tocloft}
+% \usepackage{subfig}
+\usepackage[table]{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[export]{adjustbox}
+\usepackage[bottom]{footmisc}
+\usepackage{geometry}
+\geometry{a4paper}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{calc}
+
+\linespread{1.2}
+\setlength{\parindent}{0pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=red
+}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITOLO
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\center
+
+\textsc{\Large Relazione del progetto per il corso di \\ Sistemi Intelligenti Robotici}\\[0.5cm]
+
+\HRule \\[0.4cm]
+{\huge \bfseries Riproduzione di un \\[0.1cm] Distributed Adaptive Controller \\[0.1cm] per Agenti Robotici: \\[0.1cm] Apprendimento autonomo \\[0.5cm] della Obstacle-Avoidance}\\[0.4cm]
+\HRule \\[1.cm]
+
+\emph{A.A.2017/2018}
+
+\vfill
+
+\emph{Matteo Gabellini, Alessandro Cevoli}\\[3cm]
+
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	INDICE
+%----------------------------------------------------------------------------------------
+
+\tableofcontents
+
+\include{chapters/1.Introduzione}
+
+\include{chapters/2.Progettazione}
+
+\include{chapters/3.Implementazione}
+
+\include{chapters/4.Risultati}
+
+\include{chapters/5.Conclusioni}
+
+\include{chapters/Bibliography}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
